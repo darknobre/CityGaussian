@@ -1,10 +1,4 @@
-FROM nvidia/cuda:11.8.0-devel-ubuntu22.04
-ENV DEBIAN_FRONTEND noninteractive
-
-ENV CUDA_HOME=/usr/local/cuda
-ENV PATH=$CUDA_HOME/bin:$PATH
-ENV LD_LIBRARY_PATH=$CUDA_HOME/lib64:$LD_LIBRARY_PATH
-
+FROM pytorch/pytorch:2.0.1-cuda11.8-cudnn8-runtime
 RUN apt-get update && apt-get install -y build-essential
     
 RUN apt update && apt install -y wget && \
@@ -12,6 +6,8 @@ RUN apt update && apt install -y wget && \
     bash miniconda.sh -b -p /opt/conda && \
     rm miniconda.sh && \
     apt clean
+
+RUN apt-get update && apt-get install -y git
     
 ENV PATH="/opt/conda/bin:$PATH"
 
@@ -21,17 +17,13 @@ COPY . /app
 
 RUN pip install jupyter
 
-RUN conda install -c anaconda git
-
-
-
 RUN conda create -yn gspl python=3.9 pip
 RUN echo "source activate gspl" > ~/.bashrc
 ENV PATH /opt/conda/envs/gspl/bin:$PATH
 
 
 RUN pip install -r /app/requirements/pyt201_cu118.txt
-RUN pip install -r /app/requirements.txt
+RUN pip install -v -r /app/requirements.txt
 RUN pip install -r /app/requirements/CityGS.txt
 
 EXPOSE 8888
