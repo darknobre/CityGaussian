@@ -5,6 +5,7 @@ RUN apt update && apt install -y wget && \
     bash miniconda.sh -b -p /opt/conda && \
     rm miniconda.sh && \
     apt clean
+    
 ENV PATH="/opt/conda/bin:$PATH"
 
 WORKDIR /app
