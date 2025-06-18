@@ -15,13 +15,14 @@ COPY . /app
 RUN pip install jupyter
 
 RUN conda install -c anaconda git
-RUN pip install PyTorch==2.0.1
+
 RUN pip install gcc7
 
 RUN conda create -yn gspl python=3.9 pip
 RUN echo "source activate gspl" > ~/.bashrc
 ENV PATH /opt/conda/envs/gspl/bin:$PATH
 
+RUN pip install PyTorch==2.0.1
 RUN pip install -r /app/requirements/pyt201_cu118.txt
 RUN pip install -r /app/requirements.txt
 RUN pip install -r /app/requirements/CityGS.txt
