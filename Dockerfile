@@ -1,4 +1,4 @@
-FROM ubuntu
+FROM nvidia/cuda:11.8.0-base-ubuntu22.04
 
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && \
