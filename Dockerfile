@@ -1,12 +1,7 @@
-FROM nvidia/cuda:11.8.0-base-ubuntu22.04
-
+FROM nvidia/cuda:11.8.0-devel-ubuntu22.04
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update && apt-get install -y build-essential
-
-ENV CUDA_HOME=/usr/local/cuda-11.8
-ENV PATH=$CUDA_HOME/bin:$PATH
-ENV LD_LIBRARY_PATH=$CUDA_HOME/lib64:$LD_LIBRARY_PATH
 
     
 RUN apt update && apt install -y wget && \
