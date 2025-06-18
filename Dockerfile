@@ -1,5 +1,10 @@
-FROM nvidia/cuda:11.8.0-runtime-ubuntu22.04
+FROM ubuntu
 
+ENV DEBIAN_FRONTEND noninteractive
+RUN apt-get update && \
+    apt-get -y install gcc mono-mcs && \
+    rm -rf /var/lib/apt/lists/*
+    
 RUN apt update && apt install -y wget && \
     wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh && \
     bash miniconda.sh -b -p /opt/conda && \
@@ -16,13 +21,13 @@ RUN pip install jupyter
 
 RUN conda install -c anaconda git
 
-RUN pip install gcc7
+
 
 RUN conda create -yn gspl pip
 RUN echo "source activate gspl" > ~/.bashrc
 ENV PATH /opt/conda/envs/gspl/bin:$PATH
 
-RUN conda install pytorch==2.0.1 torchvision==0.15.2 torchaudio==2.0.2 -c pytorch
+
 RUN pip install -r /app/requirements/pyt201_cu118.txt
 RUN pip install -r /app/requirements.txt
 RUN pip install -r /app/requirements/CityGS.txt
