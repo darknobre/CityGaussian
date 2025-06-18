@@ -1,15 +1,9 @@
 FROM pytorch/pytorch:2.1.0-cuda11.8-cudnn8-runtime
 RUN apt-get update && apt-get install -y build-essential
-    
-RUN apt update && apt install -y wget && \
-    wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh && \
-    bash miniconda.sh -b -p /opt/conda && \
-    rm miniconda.sh && \
-    apt clean
 
 RUN apt-get update && apt-get install -y git
     
-ENV PATH="/opt/conda/bin:$PATH"
+
 
 WORKDIR /app
 
