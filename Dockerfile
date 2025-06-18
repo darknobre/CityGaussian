@@ -38,7 +38,7 @@ WORKDIR /app
 
 COPY . /app
 
-RUN pip install jupyter-lab
+RUN pip install jupyterlab
 
 RUN conda create -yn gspl python=3.9 pip
 RUN echo "source activate gspl" > ~/.bashrc
