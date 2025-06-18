@@ -1,9 +1,5 @@
-FROM nvcr.io/nvidia/pytorch:22.06-py3
+FROM ubuntu:22.04
 
-# Prevent interactive prompts during package installation
-ENV DEBIAN_FRONTEND=noninteractive
-
-# Install required packages
 RUN apt-get update && apt-get install -y \
     wget \
     curl \
@@ -29,10 +25,19 @@ RUN apt-get update && apt-get install -y \
     meshlab && \
     rm -rf /var/lib/apt/lists/*
 
-# Install Python packages
-RUN pip install plyfile tqdm torch==1.13.1
-    
+RUN wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-keyring_1.0-1_all.deb
+RUN sudo dpkg -i cuda-keyring_1.0-1_all.deb
+RUN sudo apt-get update
+RUN sudo apt-get -y install cuda
 
+
+RUN apt update && apt install -y wget && \
+    wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh && \
+    bash miniconda.sh -b -p /opt/conda && \
+    rm miniconda.sh && \
+    apt clean
+
+ENV PATH="/opt/conda/bin:$PATH"
 
 WORKDIR /app
 
@@ -50,4 +55,4 @@ RUN pip install -v -r /app/requirements.txt
 RUN pip install -r /app/requirements/CityGS.txt
 
 EXPOSE 8888
-CMD ["conda", "run", "-n", "horizon_gs", "jupyter", "lab", "--ip='*'", "--port=8888", "--no-browser", "--allow-root"]
+CMD ["conda", "run", "-n", "gspl", "jupyter", "lab", "--ip='*'", "--port=8888", "--no-browser", "--allow-root"]
