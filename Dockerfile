@@ -18,7 +18,7 @@ RUN conda install -c anaconda git
 
 RUN pip install gcc7
 
-RUN conda create -yn gspl python=3.9 pip
+RUN conda create -yn gspl python=3.13 pip
 RUN echo "source activate gspl" > ~/.bashrc
 ENV PATH /opt/conda/envs/gspl/bin:$PATH
 
