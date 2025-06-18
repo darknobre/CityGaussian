@@ -15,7 +15,7 @@ COPY . /app
 RUN pip install jupyter
 
 RUN conda install -c anaconda git
-
+RUN pip install gcc7
 
 RUN conda create -yn gspl python=3.9 pip
 RUN echo "source activate gspl" > ~/.bashrc
