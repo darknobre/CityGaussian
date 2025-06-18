@@ -15,6 +15,7 @@ COPY . /app
 RUN pip install jupyter
 
 RUN conda install -c anaconda git
+RUN pip install PyTorch==2.0.1
 RUN pip install gcc7
 
 RUN conda create -yn gspl python=3.9 pip
