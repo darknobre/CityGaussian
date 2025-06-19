@@ -1,46 +1,25 @@
-FROM ubuntu:22.04
+FROM nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && apt-get install -y \
     wget \
     curl \
-    nano \
     git \
-    libx11-6 \
+    bzip2 \
+    ca-certificates \
+    libglib2.0-0 \
+    libxext6 \
+    libsm6 \
+    libxrender1 \
     libgl1-mesa-glx \
-    g++ \
-    libglew-dev \
-    libassimp-dev \
-    libboost-all-dev \
-    libgtk-3-dev \
-    libopencv-dev \
-    libglfw3-dev \
-    libavdevice-dev \
-    libavcodec-dev \
-    libeigen3-dev \
-    libxxf86vm-dev \
-    libembree-dev \
-    colmap \
-    imagemagick \
-    ffmpeg \
-    meshlab && \
-    rm -rf /var/lib/apt/lists/*
+    sudo \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2204/x86_64/cuda-keyring_1.0-1_all.deb
-RUN dpkg -i cuda-keyring_1.0-1_all.deb
-RUN apt-get update
-RUN apt-get -y install cuda
-
-ENV PATH=/usr/local/cuda/bin:${PATH}
-ENV LD_LIBRARY_PATH=/usr/local/cuda/lib64:${LD_LIBRARY_PATH}
-
-RUN apt update && apt install -y wget && \
-    wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh && \
-    bash miniconda.sh -b -p /opt/conda && \
-    rm miniconda.sh && \
-    apt clean
-
-ENV PATH="/opt/conda/bin:$PATH"
+ENV CONDA_DIR=/opt/conda
+RUN wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O /tmp/miniconda.sh && \
+    bash /tmp/miniconda.sh -b -p $CONDA_DIR && \
+    rm /tmp/miniconda.sh
+ENV PATH=$CONDA_DIR/bin:$PATH
 
 WORKDIR /app
 
